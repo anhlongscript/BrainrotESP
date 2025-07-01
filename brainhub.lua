@@ -1,21 +1,23 @@
 --[[
-    Brainrot Hack GUI v1.1 by dai_ca 🧠
+    Brainrot Hack GUI v1.2 by dai_ca 🧠
     - ESP Brainrot item
     - Auto Teleport to random spot after steal
     - Anti-Kick system
     - Adjustable Speed & Jump
+    - Toggleable GUI with Right Shift
     - Designed for Godwave Executor
 --]]
 
 -- SERVICES
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 local LocalPlayer = Players.LocalPlayer
 
 -- LIBRARY
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
-local Window = OrionLib:MakeWindow({Name="🧠 BrainrotGodHub", HidePremium=false, SaveConfig=false, IntroText="Loaded by dai_ca"})
+local Window = OrionLib:MakeWindow({Name="🧠 BrainrotGodHub", HidePremium=false, SaveConfig=false, IntroText="Loaded by dai_ca", ConfigFolder="brainhubconfig"})
 
 -- VARS
 local ESP_ENABLED = false
@@ -24,6 +26,7 @@ local ANTI_KICK_ENABLED = false
 local SPEED = 16
 local JUMP = 50
 local Highlighted = {}
+local MenuVisible = true
 
 -- FUNCTIONS
 local function teleportRandom()
@@ -131,5 +134,14 @@ tab:AddSlider({
         end
     end
 })
+
+-- TOGGLE GUI WITH RIGHT SHIFT
+UserInputService.InputBegan:Connect(function(input, processed)
+    if processed then return end
+    if input.KeyCode == Enum.KeyCode.RightShift then
+        MenuVisible = not MenuVisible
+        OrionLib:Toggle(MenuVisible)
+    end
+end)
 
 OrionLib:Init()
